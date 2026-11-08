@@ -181,12 +181,15 @@ log_path = Path("data/auth-sample.log")
 with log_path.open("r", encoding="utf-8") as file:
     for line in file:
         print(line)
+
 Filtrowanie nieudanych logowań SSH
+
 if "Failed password" in line:
     failed_lines += 1
-Przykładowa wykrywana linia:
 
+Przykładowa wykrywana linia:
 Failed password for root from 192.168.1.10 port 22 ssh2
+
 Ekstrakcja adresu IP przy użyciu regex
 import re
 
@@ -196,9 +199,11 @@ match = re.search(pattern, line)
 
 if match:
     ip = match.group(1)
+
 Dla wpisu:
 
 Failed password for root from 192.168.1.10 port 22 ssh2
+
 zostanie wyciągnięty adres:
 
 192.168.1.10
@@ -210,12 +215,15 @@ Przykładowy wynik:
     "192.168.1.10": 5,
     "10.0.0.5": 2
 }
+
 Sortowanie adresów IP
+
 sorted_ips = sorted(
     ip_counts.items(),
     key=lambda item: item[1],
     reverse=True
 )
+
 Przykładowy wynik:
 
 [
@@ -223,10 +231,12 @@ Przykładowy wynik:
     ("10.0.0.5", 2)
 ]
 Oznaczanie adresów przekraczających próg alarmowy
+
 ALERT_THRESHOLD = 3
 
 if count >= ALERT_THRESHOLD:
     print(f"{ip}: {count} <-- ALERT")
+
 Wczytywanie listy IOC
 ioc_ips = set()
 
@@ -236,6 +246,7 @@ with open("data/ioc-ips.txt", "r") as file:
 
         if ip:
             ioc_ips.add(ip)
+
 Sprawdzanie dopasowań IOC
 ioc_matches = []
 
@@ -243,7 +254,9 @@ for ip in ip_counts:
 
     if ip in ioc_ips:
         ioc_matches.append(ip)
+
 Generowanie raportu JSON
+
 report = {
     "file": str(log_path),
     "total_lines": line_count,
@@ -266,6 +279,7 @@ with open(
         indent=4,
         ensure_ascii=False
     )
+
 Generowanie raportu CSV
 import csv
 
