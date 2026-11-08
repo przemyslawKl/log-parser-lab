@@ -1,0 +1,139 @@
+1. Czym różni się filtrowanie linii od parsowania pól?
+
+Filtrowanie linii polega na wyszukiwaniu interesujących wpisów w logu, np. linii zawierających tekst:
+Failed password
+Na tym etapie sprawdzamy jedynie, czy dana linia jest dla nas istotna.
+Parsowanie pól polega natomiast na wyciąganiu konkretnych informacji z wybranej linii, np.:
+
+adresu IP,
+nazwy użytkownika,
+znacznika czasu,
+numeru portu.
+
+Przykład:
+Failed password for root from 192.168.1.10 port 22
+
+Filtrowanie odpowiada na pytanie:
+Czy ta linia jest interesująca?
+
+Parsowanie odpowiada na pytanie:
+Jakie dane znajdują się w tej linii?
+
+
+2. Dlaczego parser powinien czytać log linia po linii?
+Logi produkcyjne mogą mieć rozmiar setek megabajtów lub wielu gigabajtów.
+
+Czytanie pliku linia po linii pozwala:
+
+zużywać mniej pamięci RAM,
+analizować bardzo duże pliki,
+szybciej przetwarzać dane,
+łatwo obsługiwać logi stale rosnące w czasie.
+
+Wczytanie całego pliku do pamięci może prowadzić do niepotrzebnego zużycia zasobów lub błędów przy bardzo dużych logach.
+
+
+3. Dlaczego regex do IPv4 nie musi oznaczać pełnej walidacji IP?
+
+Regex użyty w laboratorium:
+
+Python
+\d+\.\d+\.\d+\.\d+
+
+sprawdza jedynie, czy tekst wygląda jak adres IPv4.
+
+Za poprawne uzna również:
+
+999.999.999.999
+lub
+300.400.500.600
+
+mimo że nie są to prawidłowe adresy IP.
+
+Dlatego wynik działania regexa należy traktować jako kandydata na adres IP, a nie pełną walidację IPv4.
+
+
+4. Co oznacza przekroczenie progu alarmowego?
+
+Przekroczenie progu alarmowego oznacza, że liczba nieudanych prób logowania z danego adresu IP osiągnęła lub przekroczyła ustaloną wartość.
+
+Przykład:
+
+Python
+ALERT_THRESHOLD = 3
+
+Jeżeli adres 10.0.0.5 wystąpił 5 razy to zostanie oznaczony jako ALERT.
+
+Nie oznacza to jednak automatycznie ataku, lecz wskazuje na zdarzenie wymagające dalszej analizy.
+
+
+5. Dlaczego dopasowanie do IOC nie jest automatycznym potwierdzeniem incydentu?
+
+IOC (Indicator of Compromise) jest jedynie wskaźnikiem potencjalnie podejrzanej aktywności.
+
+Przykładowo adres IP znajdujący się na liście IOC może:
+
+pochodzić z wcześniejszej kampanii ataków,
+być błędnie sklasyfikowany,
+zostać wykorzystany przez legalnego użytkownika.
+
+Dopasowanie do IOC zwiększa poziom podejrzenia, ale nie stanowi samodzielnego dowodu wystąpienia incydentu bezpieczeństwa.
+
+Potrzebna jest dodatkowa analiza logów i kontekstu zdarzenia.
+
+
+6. Jakie informacje powinien zawierać raport, aby był wiarygodny?
+
+Raport powinien zawierać:
+
+nazwę analizowanego pliku,
+liczbę przeanalizowanych linii,
+liczbę dopasowanych linii,
+liczbę pominiętych linii,
+liczbę błędów parsowania,
+liczbę nieudanych logowań dla każdego IP,
+informację o przekroczeniu progu alarmowego,
+informację o dopasowaniu do IOC,
+opis zastosowanych założeń i ograniczeń analizy.
+
+Dzięki temu inny analityk może zweryfikować sposób uzyskania wyników.
+
+7. Kiedy warto użyć pandas, a kiedy wystarczy biblioteka standardowa?
+
+Biblioteka standardowa jest wystarczająca, gdy:
+
+odczytujemy logi,
+filtrujemy dane,
+używamy regexów,
+zapisujemy wyniki do JSON lub CSV,
+wykonujemy proste agregacje.
+
+Pandas warto użyć, gdy:
+
+analizujemy duże zbiory danych,
+wykonujemy filtrowanie i grupowanie,
+tworzymy zestawienia,
+przygotowujemy raporty analityczne,
+eksportujemy dane do innych narzędzi.
+
+W tym laboratorium parser został zbudowany przy użyciu biblioteki standardowej, 
+natomiast Pandas służy do dalszej analizy wygenerowanego CSV.
+
+
+8. Dlaczego nie należy modyfikować pliku źródłowego?
+
+Plik źródłowy stanowi oryginalny materiał dowodowy.
+
+Jego modyfikacja może:
+
+utrudnić analizę,
+spowodować utratę danych,
+uniemożliwić odtworzenie zdarzeń,
+podważyć wiarygodność wyników.
+
+Dlatego parser powinien działać wyłącznie w trybie odczytu, 
+a wszystkie raporty zapisywać do osobnych plików, np. w katalogu:
+
+output/
+ 
+Jest to zgodne z dobrymi praktykami analizy logów, informatyki śledczej oraz pracy zespołów SOC.s

@@ -1,0 +1,104 @@
+{
+    "file": "data/auth-sample.log",
+    "alert_threshold": 3,
+    "total_lines": 500,
+    "failed_lines": 402,
+    "skipped_lines": 98,
+    "parsing_errors": 3,
+    "alert_ips": [
+        "203.0.113.77",
+        "203.0.113.10",
+        "198.51.100.61",
+        "203.0.113.88",
+        "192.0.2.120",
+        "198.51.100.90",
+        "192.0.2.200",
+        "198.51.100.23",
+        "192.0.2.31"
+    ],
+    "ioc_matches": [
+        "203.0.113.10",
+        "203.0.113.77"
+    ],
+    "ip_statistics": [
+        {
+            "source_ip": "203.0.113.77",
+            "failed_logins": 155,
+            "alert": true,
+            "ioc_match": true
+        },
+        {
+            "source_ip": "203.0.113.10",
+            "failed_logins": 124,
+            "alert": true,
+            "ioc_match": true
+        },
+        {
+            "source_ip": "198.51.100.61",
+            "failed_logins": 45,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "203.0.113.88",
+            "failed_logins": 32,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "192.0.2.120",
+            "failed_logins": 18,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "198.51.100.90",
+            "failed_logins": 9,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "192.0.2.200",
+            "failed_logins": 4,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "198.51.100.23",
+            "failed_logins": 3,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "192.0.2.31",
+            "failed_logins": 3,
+            "alert": true,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "192.0.2.55",
+            "failed_logins": 2,
+            "alert": false,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "198.51.100.112",
+            "failed_logins": 2,
+            "alert": false,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "192.0.2.42",
+            "failed_logins": 1,
+            "alert": false,
+            "ioc_match": false
+        },
+        {
+            "source_ip": "203.0.113.130",
+            "failed_logins": 1,
+            "alert": false,
+            "ioc_match": false
+        }
+    ],
+    "note": "Wynik jest sygnałem analitycznym i nie stanowi automatycznego potwierdzenia incydentu."
+}
