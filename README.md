@@ -22,9 +22,13 @@ obsługuje podstawowe błędy wejścia i parsowania.
 
 
 Struktura projektu
+
 log-parser-lab/
+
 │
+
 ├── data/
+
 │   ├── auth-sample.log
 │   ├── apache-sample.log
 │   └── ioc-ips.txt
