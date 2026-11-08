@@ -30,16 +30,27 @@ log-parser-lab/
 ├── data/
 
 │   ├── auth-sample.log
+
 │   ├── apache-sample.log
+
 │   └── ioc-ips.txt
+
 │
+
 ├── output/
+
 │   ├── ssh-bruteforce-summary.json
+
 │   └── ssh-bruteforce-summary.csv
+
 │
+
 ├── ssh_bruteforce_parser.py
+
 ├── README.md
+
 └── requirements.txt
+
 
 
 Wymagania
