@@ -62,45 +62,57 @@ pathlib
 re
 json
 csv
+
 Opcjonalnie:
 
 pandas
 numpy
+
 Instalacja
 Utworzenie środowiska wirtualnego:
 
 Linux
 python3 -m venv venv
 source venv/bin/activate
+
 Windows
 python -m venv venv
 venv\Scripts\activate
+
 Instalacja zależności:
 
 pip install -r requirements.txt
+
 Uruchomienie
 Przejdź do katalogu projektu:
 
 cd log-parser-lab
+
 Uruchom parser:
 
 python ssh_bruteforce_parser.py
+
 Działanie parsera
 Parser analizuje plik:
 
 data/auth-sample.log
+
 Wyszukiwane są wpisy:
 
 Failed password
+
 Przykładowa linia:
 
 Jan 10 10:00:01 server sshdFailed password for root from 192.168.1.10 port 22 ssh2
+
 Za pomocą regex wyciągany jest adres IP:
 
 r"from (\d+\.\d+\.\d+\.\d+)"
+
 Następnie adresy są agregowane i sortowane według liczby wystąpień.
 
 Próg alarmowy
+
 Domyślny próg alarmowy:
 
 ALERT_THRESHOLD = 3
@@ -110,22 +122,27 @@ Przykład:
 
 192.168.1.10 : 5 <-- ALERT
 IOC (Indicators of Compromise)
+
 Program odczytuje listę adresów IOC z pliku:
 
 data/ioc-ips.txt
+
 Przykład:
 
 10.0.0.5
 192.168.1.10
 8.8.8.8
+
 Każdy wykryty adres IP jest porównywany z listą IOC.
 
 Dopasowanie oznacza jedynie sygnał analityczny i nie stanowi automatycznego potwierdzenia incydentu.
+
 
 Raport JSON
 Raport zapisywany jest do:
 
 output/ssh-bruteforce-summary.json
+
 Przykładowa zawartość:
 
 {
@@ -142,16 +159,21 @@ Przykładowa zawartość:
         "192.168.1.10"
     ]
 }
+
 Raport CSV
+
 Raport CSV zapisywany jest do:
 
 output/ssh-bruteforce-summary.csv
+
 Przykład:
 
 source_ip,failed_logins,alert,ioc_match
 192.168.1.10,5,True,True
 10.0.0.5,2,False,False
+
 Obsługa błędów
+
 Program obsługuje:
 
 nieistniejący plik,
@@ -159,6 +181,7 @@ podanie katalogu zamiast pliku,
 błędy parsowania rekordów,
 brak dopasowania regex,
 pustą listę IOC.
+
 Przykładowe komunikaty:
 
 Błąd: plik nie istnieje.
@@ -173,6 +196,7 @@ Projekt przeznaczony jest do celów edukacyjnych.
 
 
 Przykładowy kod
+
 Odczyt pliku przy użyciu pathlib
 from pathlib import Path
 
@@ -187,10 +211,13 @@ Filtrowanie nieudanych logowań SSH
 if "Failed password" in line:
     failed_lines += 1
 
+
 Przykładowa wykrywana linia:
 Failed password for root from 192.168.1.10 port 22 ssh2
 
+
 Ekstrakcja adresu IP przy użyciu regex
+
 import re
 
 pattern = r"from (\d+\.\d+\.\d+\.\d+)"
@@ -207,8 +234,10 @@ Failed password for root from 192.168.1.10 port 22 ssh2
 zostanie wyciągnięty adres:
 
 192.168.1.10
+
 Zliczanie prób logowania per IP
 ip_counts[ip] = ip_counts.get(ip, 0) + 1
+
 Przykładowy wynik:
 
 {
@@ -238,6 +267,7 @@ if count >= ALERT_THRESHOLD:
     print(f"{ip}: {count} <-- ALERT")
 
 Wczytywanie listy IOC
+
 ioc_ips = set()
 
 with open("data/ioc-ips.txt", "r") as file:
@@ -248,6 +278,7 @@ with open("data/ioc-ips.txt", "r") as file:
             ioc_ips.add(ip)
 
 Sprawdzanie dopasowań IOC
+
 ioc_matches = []
 
 for ip in ip_counts:
@@ -263,6 +294,7 @@ report = {
     "failed_lines": failed_lines,
     "ip_statistics": []
 }
+
 Zapis do pliku:
 
 import json
@@ -280,7 +312,9 @@ with open(
         ensure_ascii=False
     )
 
+
 Generowanie raportu CSV
+
 import csv
 
 with open(
@@ -305,7 +339,11 @@ with open(
                 count >= ALERT_THRESHOLD
             ]
         )
+
+
 Przykładowy wynik działania
+
+
 --- RAPORT ---
 
 Przeanalizowane linie: 50
